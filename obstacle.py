@@ -1,4 +1,5 @@
 import cv2
+import threading
 import pyttsx3
 import time
 from ultralytics import YOLO
@@ -45,8 +46,13 @@ def estimate_direction(box_center_x, frame_width):
 
 def speak(text):
     print(f"[ALERT] {text}")
-    engine.say(text)
-    engine.runAndWait()
+    def _speak():
+        e = pyttsx3.init()
+        e.setProperty("rate", 150)
+        e.say(text)
+        e.runAndWait()
+    t = threading.Thread(target=_speak)
+    t.start()
 
 
 def run():
