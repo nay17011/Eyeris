@@ -4,15 +4,15 @@ import time
 from ultralytics import YOLO
 
 # --- Setup ---
-model = YOLO("yolov8n.pt")  # downloads automatically on first run (~6MB)
-
+model = YOLO("yolov8n.pt")  
 engine = pyttsx3.init()
 engine.setProperty("rate", 150)  # speaking speed - lower is slower and clearer
 
 # Objects that actually matter for pedestrian navigation
 RELEVANT_OBJECTS = {
     "person", "car", "motorcycle", "bicycle",
-    "bus", "truck", "chair", "dining table", "stop sign"
+    "bus", "truck", "chair", "dining table", "stop sign", "pole",
+    "door", "trash bin"
 }
 
 CONFIDENCE_THRESHOLD = 0.5
@@ -58,7 +58,7 @@ def run():
         return
 
     print("Eyeris obstacle detection running. Press Q to quit.")
-    speak("Eyeris is ready.")
+    speak("Eyeris is active. Scanning for obstacles.")
 
     while True:
         ret, frame = cap.read()
