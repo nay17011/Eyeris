@@ -6,8 +6,6 @@ from ultralytics import YOLO
 
 # --- Setup ---
 model = YOLO("yolov8n.pt")  
-engine = pyttsx3.init()
-engine.setProperty("rate", 150)  # speaking speed - lower is slower and clearer
 
 # Objects that actually matter for pedestrian navigation
 RELEVANT_OBJECTS = {
@@ -43,7 +41,6 @@ def estimate_direction(box_center_x, frame_width):
     else:
         return "straight ahead — move aside"
 
-
 def speak(text):
     print(f"[ALERT] {text}")
     def _speak():
@@ -52,6 +49,7 @@ def speak(text):
         e.say(text)
         e.runAndWait()
     t = threading.Thread(target=_speak)
+    t.daemon = True
     t.start()
 
 
@@ -65,7 +63,7 @@ def run():
 
     print("Eyeris obstacle detection running. Press Q to quit.")
     speak("Eyeris is active. Scanning for obstacles.")
-
+    time.sleep(3)
     while True:
         ret, frame = cap.read()
         if not ret:
